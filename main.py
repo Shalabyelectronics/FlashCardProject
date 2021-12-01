@@ -31,6 +31,11 @@ def change_canvas_text(item, word):
     canvas.itemconfig(item, text=word)
 
 
+# ----------------Change words background---------------------#
+def change_word_bg():
+    canvas.itemconfig(bg_word_rectangle, fill="black")
+
+
 # --------------------Flash Card functions--------------------#
 def delete_words():
     global count_index
@@ -89,7 +94,7 @@ words to learn another label (column=2,row=0)
 # My canvas Start here.
 canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # ------------------ This part will be refreshed each time user start the app-----#
-bg_word_rectangle= canvas.create_rectangle(40,400,500,90, fill="white", outline="white")
+bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
 # total_words = str(index_length - count_index)
 number_of_words = canvas.create_text(155, 50, text=None, fill=FG_COLOR, font=(FONT, 50))
 # -----------First Face---------------#
