@@ -10,7 +10,7 @@ count_index = 0
 
 
 # ------------Show Next Word------------------- we call this function in line 125#
-def next_word(index):
+def show_words(index):
     if index_length >= 0:
         en_word = data_file.loc[index, "en"]
         ar_word = data_file.loc[index, "ar"]
@@ -23,7 +23,7 @@ def next_word(index):
 def increase_count_index():
     global count_index
     count_index += 1
-    next_word(count_index)
+    show_words(count_index)
 
 
 # --------------------Change Canvas text----------------------#
@@ -36,16 +36,10 @@ def change_word_bg():
     canvas.itemconfig(bg_word_rectangle, fill="black")
 
 
-# --------------------Delete words functions--------------------#
-def delete_words():
+# ------------------Yes and delete row Function-----------------#
+def yes_delete_row():
     global count_index
     data_file.drop(count_index, inplace=True)
-
-
-# ------------------Yes Function-----------------#
-def yes_fun():
-    global count_index
-    delete_words()
     increase_count_index()
     word_remaining()
 
@@ -54,7 +48,7 @@ def yes_fun():
 def no_fun():
     global count_index
     increase_count_index()
-    next_word(count_index)
+    show_words(count_index)
     word_remaining()
 
 
@@ -112,7 +106,7 @@ remaining_word_text = canvas.create_text(350, 50, text="Words Remaining ", fill=
 canvas.grid(column=0, row=1, columnspan=4)
 # ----------Yes Button----------------#
 yes_button_image = PhotoImage(file="img/yes.png")
-yes_button = Button(image=yes_button_image, highlightthicknes=0, border="0", command=yes_fun)
+yes_button = Button(image=yes_button_image, highlightthicknes=0, border="0", command=yes_delete_row)
 yes_button.grid(column=0, row=2, sticky=W)
 # ----------Exit and Save Button-------#
 save_exit_image = PhotoImage(file="img/saveandexit.png")
@@ -122,5 +116,5 @@ save_exit_button.grid(column=1, row=2, sticky=S)
 no_image = PhotoImage(file="img/no.png")
 no_button = Button(image=no_image, bg=BG_COLOR, highlightthicknes=0, border="0", command=increase_count_index)
 no_button.grid(column=2, row=2, sticky=E)
-next_word(count_index)
+show_words(count_index)
 window.mainloop()

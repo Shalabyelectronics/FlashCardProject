@@ -19,5 +19,37 @@ Here we use pandas libraries because it is very useful in this case, so I start 
 because when I drop any row later and when saving the data file the index well be different, and that will cause an error later.
 and to reset my index I used reset_index method `data_file.reset_index(drop=True, inplace=True)`
 I turned the drop parameter to True so when it reset the current index it will not add an old index in secret column, and we add inplace to True to apply my changes.
-
-
+Also, I got the number of remaining words to learn from `remaining_words = str(index_length - count_index)` as I add it in 
+words_remaining function.
+* ### Updating the words.
+The next step was to update the words on the canvas, so I created show_words function that took index as a parameter.
+```buildoutcfg
+def show_words(index):
+    if index_length >= 0:
+        en_word = data_file.loc[index, "en"]
+        ar_word = data_file.loc[index, "ar"]
+        word_remaining() # Will  update the remaing words number in the program canvas.
+        change_canvas_text(words_canvas, en_word)
+        window.after(3000, change_canvas_text, words_canvas, ar_word)
+```
+As we can see we display the english word first then the arabic word and the period of time between them is 3 seconds.
+* ### Yes button and drop a row.
+Here when the user press Yes button as the user knows the Yes and delete row Function will be triggered.
+```buildoutcfg
+# ------------------Yes and delete row Function-----------------#
+def yes_delete_row():
+    global count_index
+    data_file.drop(count_index, inplace=True)
+    increase_count_index()
+    word_remaining()
+```
+* ### No button and go to next word.
+Here when the user click No button as the user do not know this word then No_function will be triggered.
+```buildoutcfg
+# ------------------No Function--------------------#
+def no_fun():
+    global count_index
+    increase_count_index()
+    show_words(count_index)
+    word_remaining()
+```
