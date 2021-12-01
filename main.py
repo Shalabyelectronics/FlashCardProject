@@ -1,7 +1,7 @@
 from tkinter import *
 import pandas as pd
 
-# --------------Load and Reset my data file index-----------#
+# --------------Load and Reset my data file index----------- First Step-------#
 
 data_file = pd.read_csv("en_ar_data.csv", index_col=0)
 data_file.reset_index(drop=True, inplace=True)
@@ -9,14 +9,7 @@ index_length = len(data_file)
 count_index = 0
 
 
-# ---------------Increase_Count_Index------------#
-def increase_count_index():
-    global count_index
-    count_index += 1
-    next_word(count_index)
-
-
-# ------------Show Next Word-------------------#
+# ------------Show Next Word------------------- we call this function in line 125#
 def next_word(index):
     if index_length >= 0:
         en_word = data_file.loc[index, "en"]
@@ -24,6 +17,13 @@ def next_word(index):
         word_remaining()
         change_canvas_text(words_canvas, en_word)
         window.after(3000, change_canvas_text, words_canvas, ar_word)
+
+
+# ---------------Increase_Count_Index------------#
+def increase_count_index():
+    global count_index
+    count_index += 1
+    next_word(count_index)
 
 
 # --------------------Change Canvas text----------------------#
@@ -36,7 +36,7 @@ def change_word_bg():
     canvas.itemconfig(bg_word_rectangle, fill="black")
 
 
-# --------------------Flash Card functions--------------------#
+# --------------------Delete words functions--------------------#
 def delete_words():
     global count_index
     data_file.drop(count_index, inplace=True)
