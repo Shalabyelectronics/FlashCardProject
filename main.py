@@ -15,7 +15,6 @@ ar_word = None
 # ------------Show Next Word------------------- we call this function in line 125#
 def show_words(index):
     global ar_word_side, en_word, ar_word, count_index
-    print(count_index)
     if index_length >= 0:
         try:
             en_word = data_file.loc[index, "en"]
@@ -31,6 +30,7 @@ def show_words(index):
 
 # ----------------Show word-----------------------#
 def show_next_word():
+    global ar_word_side, ar_word
     window.after_cancel(ar_word_side)
     change_canvas_text(words_canvas, ar_word)
 
@@ -80,6 +80,7 @@ def change_word_bg():
 # ------------------Yes and delete row Function-----------------#
 def yes_delete_row():
     global count_index
+    window.after_cancel(ar_word_side)
     data_file.drop(count_index, inplace=True)
     increase_count_index()
     word_remaining()
@@ -88,8 +89,8 @@ def yes_delete_row():
 # ------------------No Function--------------------#
 def no_fun():
     global count_index
+    window.after_cancel(ar_word_side)
     increase_count_index()
-    show_words(count_index)
     word_remaining()
 
 
@@ -163,7 +164,7 @@ save_exit_button.grid(column=1, row=3, columnspan=2)
 # ---------No Button------------------#
 no_image = PhotoImage(file="img/no.png")
 no_button = Button(image=no_image, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
-                   command=increase_count_index)
+                   command=no_fun)
 no_button.grid(column=3, row=2)
 # ------------back button--------------#
 previous_b_img = PhotoImage(file="img/previous_b.png")
