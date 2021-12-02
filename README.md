@@ -53,3 +53,19 @@ def no_fun():
     show_words(count_index)
     word_remaining()
 ```
+Here as we do not know the word so will keep it in our data file to review it later.
+* ## Save and Exit.
+Here when the user click save and exit button (save and exit function) will be triggered.
+```buildoutcfg
+# ------------------Save and exit--------------------#
+def save_and_exit():
+    data_file.to_csv("en_ar_data.csv", columns=["en", "ar"])
+    window.destroy()
+```
+## Updates and Improvements.
+I'm working in this project as a practice about using tkinter library and what I noticed is
+working on application design side is too important also, so if I'm going to improve this project,
+I will focus on GUI and add more options as:
+* Translate application to the Arabic language.
+* Add show word button instead to wait for 3 seconds between each word.
+* Add Next and Previous word button.
