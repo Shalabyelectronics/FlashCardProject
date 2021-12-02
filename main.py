@@ -133,10 +133,7 @@ canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
 # total_words = str(index_length - count_index)
 number_of_words = canvas.create_text(260, 30, text=None, fill="lightseagreen", font=(FONT, 50))
-# -----------First Face---------------#
-# face_card_image = PhotoImage(file="img/ar_word.png")
-# face_card = canvas.create_image(500, 350, image=face_card_image, anchor=NW)
-# I created a flash card image as a frame.
+# -----------Flash card Frame---------------#
 flash_card_frame = PhotoImage(file="img/flashcardfram.png")
 canvas.create_image(250, 290, image=flash_card_frame)
 # ------------Loop and display Words-----------#
