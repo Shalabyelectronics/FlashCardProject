@@ -52,7 +52,8 @@ def show_previous_word():
         else:
             word_remaining()
             show_words(count_index)
-
+    else:
+        increase_count_index()
 
 # ---------------Show_next pair without waiting in same time--------#
 def show_both_word():
