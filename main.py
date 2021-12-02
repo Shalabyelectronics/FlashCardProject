@@ -170,10 +170,8 @@ no_button.grid(column=3, row=2)
 previous_b_img = PhotoImage(file="img/previous_b.png")
 previous_b = Button(image=previous_b_img, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
                     command=show_previous_word).grid(column=0, row=3, sticky=W)
-# -----------Next button--------------#
-# next_both_img = PhotoImage(file="img/next_b.png")
-# next_both_b = Button(image=next_both_img, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
-#                      command=show_both_word).grid(column=4, row=2)
+# ---------------- Canvas grid-----------------#
 canvas.grid(column=0, row=1, columnspan=4)
+# ---------------Call show words function--------#
 show_words(count_index)
 window.mainloop()
