@@ -72,8 +72,8 @@ def change_canvas_text(item, word):
 
 
 # ----------------Change words background---------------------#
-def change_word_bg():
-    canvas.itemconfig(bg_word_rectangle, fill="black")
+# def change_word_bg():
+#     canvas.itemconfig(bg_word_rectangle, fill="black")
 
 
 # ------------------Yes and delete row Function-----------------#
@@ -95,7 +95,7 @@ def no_fun():
 
 # ------------------Save and exit--------------------#
 def save_and_exit():
-    data_file.to_csv("en_ar_data.csv", columns=["en", "ar"])
+    data_file.to_csv("data/en_ar_data.csv", columns=["en", "ar"])
     window.destroy()
 
 
@@ -123,10 +123,6 @@ I will write (There are ) ( number of words ) (words to learn.)
 as There are is a label (column=0,row=0), number of words another label (column=1 ,row=0),
 words to learn another label (column=2,row=0)
 '''
-# there_are = Label(text="  There are ", fg=FG_COLOR, bg=BG_COLOR, font=(FONT, 20))
-# there_are.grid(column=0, row=0, sticky=E)
-# words_to_learn = Label(text="words to learn.", fg=FG_COLOR, bg=BG_COLOR, font=(FONT, 18))
-# words_to_learn.grid(column=2, row=0)
 # My canvas Start here.
 canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # ------------------ This part will be refreshed each time user start the app-----#
