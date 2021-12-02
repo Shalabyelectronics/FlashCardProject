@@ -14,13 +14,19 @@ ar_word = None
 
 # ------------Show Next Word------------------- we call this function in line 125#
 def show_words(index):
-    global ar_word_side, en_word, ar_word
+    global ar_word_side, en_word, ar_word, count_index
+    print(count_index)
     if index_length >= 0:
-        en_word = data_file.loc[index, "en"]
-        ar_word = data_file.loc[index, "ar"]
-        word_remaining()
-        change_canvas_text(words_canvas, en_word)
-        ar_word_side = window.after(3000, change_canvas_text, words_canvas, ar_word)
+        try:
+            en_word = data_file.loc[index, "en"]
+            ar_word = data_file.loc[index, "ar"]
+        except KeyError:
+            count_index += 1
+            show_words(count_index)
+        else:
+            word_remaining()
+            change_canvas_text(words_canvas, en_word)
+            ar_word_side = window.after(3000, change_canvas_text, words_canvas, ar_word)
 
 
 # ----------------Show word-----------------------#
@@ -31,10 +37,19 @@ def show_next_word():
 
 # -------------Show previous word---------------#
 def show_previous_word():
-    global count_index
-    if count_index > 0:
+    global count_index, en_word, ar_word, ar_word_side
+    if 0 < count_index <= count_index:
         count_index -= 1
-        show_words(count_index)
+        if index_length >= 0:
+            try:
+                en_word = data_file.loc[count_index, "en"]
+                ar_word = data_file.loc[count_index, "ar"]
+            except KeyError:
+                show_previous_word()
+            else:
+                word_remaining()
+                change_canvas_text(words_canvas, en_word)
+                ar_word_side = window.after(3000, change_canvas_text, words_canvas, ar_word)
 
 
 # ---------------Show_next pair without waiting in same time--------#
@@ -142,7 +157,7 @@ yes_button = Button(image=yes_button_image, activebackground=BG_COLOR, bg=BG_COL
 yes_button.grid(column=0, row=2)
 # ----------Exit and Save Button-------#
 save_exit_image = PhotoImage(file="img/saveandexit.png")
-save_exit_button = Button(image=save_exit_image,width=250, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0,
+save_exit_button = Button(image=save_exit_image, width=250, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0,
                           border="0", command=save_and_exit)
 save_exit_button.grid(column=1, row=3, columnspan=2)
 # ---------No Button------------------#
