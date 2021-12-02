@@ -38,18 +38,17 @@ def show_next_word():
 # -------------Show previous word---------------#
 def show_previous_word():
     global count_index, en_word, ar_word, ar_word_side
-    if 0 < count_index <= count_index:
+    window.after_cancel(ar_word_side)
+    if 0 <= count_index and index_length >= 0:
         count_index -= 1
-        if index_length >= 0:
-            try:
-                en_word = data_file.loc[count_index, "en"]
-                ar_word = data_file.loc[count_index, "ar"]
-            except KeyError:
-                show_previous_word()
-            else:
-                word_remaining()
-                change_canvas_text(words_canvas, en_word)
-                ar_word_side = window.after(3000, change_canvas_text, words_canvas, ar_word)
+        try:
+            en_word = data_file.loc[count_index, "en"]
+            ar_word = data_file.loc[count_index, "ar"]
+        except KeyError:
+            show_previous_word()
+        else:
+            word_remaining()
+            show_words(count_index)
 
 
 # ---------------Show_next pair without waiting in same time--------#
