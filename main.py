@@ -7,16 +7,26 @@ data_file = pd.read_csv("en_ar_data.csv", index_col=0)
 data_file.reset_index(drop=True, inplace=True)
 index_length = len(data_file)
 count_index = 0
+ar_word_side = None
+en_word = None
+ar_word = None
 
 
 # ------------Show Next Word------------------- we call this function in line 125#
 def show_words(index):
+    global ar_word_side, en_word, ar_word
     if index_length >= 0:
         en_word = data_file.loc[index, "en"]
         ar_word = data_file.loc[index, "ar"]
         word_remaining()
         change_canvas_text(words_canvas, en_word)
-        window.after(3000, change_canvas_text, words_canvas, ar_word)
+        ar_word_side = window.after(3000, change_canvas_text, words_canvas, ar_word)
+
+
+# ----------------Show word-----------------------#
+def show_next_word():
+    window.after_cancel(ar_word_side)
+    change_canvas_text(words_canvas, ar_word)
 
 
 # ---------------Increase_Count_Index------------#
@@ -66,9 +76,10 @@ def word_remaining():
 
 
 # ---------------------Fonts and Colors---------------#
-FONT = "Ubuntu-Medium"
+FONT = "Coiny"
+AR_FONT = "Arabic Typesetting"
 FG_COLOR = "#274472"
-BG_COLOR = "#C3E0E5"
+BG_COLOR = "#8FDDE7"
 
 # ---------------------Flash Card GUI------------------#
 window = Tk()
@@ -88,33 +99,41 @@ words to learn another label (column=2,row=0)
 # My canvas Start here.
 canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # ------------------ This part will be refreshed each time user start the app-----#
-bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
+# bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
 # total_words = str(index_length - count_index)
-number_of_words = canvas.create_text(155, 50, text=None, fill=FG_COLOR, font=(FONT, 50))
+number_of_words = canvas.create_text(280, 30, text=None, fill=FG_COLOR, font=(FONT, 50))
 # -----------First Face---------------#
-face_card_image = PhotoImage(file="img/ar_word.png")
-face_card = canvas.create_image(500, 350, image=face_card_image, anchor=NW)
+# face_card_image = PhotoImage(file="img/ar_word.png")
+# face_card = canvas.create_image(500, 350, image=face_card_image, anchor=NW)
 # I created a flash card image as a frame.
 flash_card_frame = PhotoImage(file="img/flashcardfram.png")
-canvas.create_image(250, 250, image=flash_card_frame)
+canvas.create_image(250, 290, image=flash_card_frame)
 # ------------Loop and display Words-----------#
-words_canvas = canvas.create_text(250, 260, text=None, fill="red", font=(FONT, 50, "bold"))
+words_canvas = canvas.create_text(250, 300, text=None, fill="red", font=(FONT, 50, "bold"))
 # -------------- Do you know this word?--------#
-you_now = canvas.create_text(250, 450, text="Do you know this word?", fill=FG_COLOR, font=(FONT, 20, "bold"))
+you_now = canvas.create_text(250, 350, text="Do you know this word?", fill=FG_COLOR, font=(FONT, 20, "bold"))
 # --------------Test Remaining words text---------#
-remaining_word_text = canvas.create_text(350, 50, text="Words Remaining ", fill="black", font=(FONT, 20, "bold"))
+remaining_word_text = canvas.create_text(280, 80, text="Words Remaining ", fill="black", font=(FONT, 20, "bold"))
+# -----------Show next word without waiting----------------#
+show_word_image = PhotoImage(file="img/show_word_direct.png")
+show_word_button = Button(text="test", border=0, highlightthicknes=0, activebackground=BG_COLOR, bg=BG_COLOR,
+                          image=show_word_image,
+                          command=show_next_word).grid(column=1, row=2)
 canvas.grid(column=0, row=1, columnspan=4)
 # ----------Yes Button----------------#
 yes_button_image = PhotoImage(file="img/yes.png")
-yes_button = Button(image=yes_button_image, highlightthicknes=0, border="0", command=yes_delete_row)
+yes_button = Button(image=yes_button_image, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0, border="0",
+                    command=yes_delete_row)
 yes_button.grid(column=0, row=2, sticky=W)
 # ----------Exit and Save Button-------#
 save_exit_image = PhotoImage(file="img/saveandexit.png")
-save_exit_button = Button(image=save_exit_image, highlightthicknes=0, border="0", command=save_and_exit)
-save_exit_button.grid(column=1, row=2, sticky=S)
+save_exit_button = Button(image=save_exit_image, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0,
+                          border="0", command=save_and_exit)
+save_exit_button.grid(column=1, row=3, sticky=S)
 # ---------No Button------------------#
 no_image = PhotoImage(file="img/no.png")
-no_button = Button(image=no_image, bg=BG_COLOR, highlightthicknes=0, border="0", command=increase_count_index)
+no_button = Button(image=no_image, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
+                   command=increase_count_index)
 no_button.grid(column=2, row=2, sticky=E)
 show_words(count_index)
 window.mainloop()
