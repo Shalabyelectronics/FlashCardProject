@@ -29,6 +29,22 @@ def show_next_word():
     change_canvas_text(words_canvas, ar_word)
 
 
+# -------------Show previous word---------------#
+def show_previous_word():
+    global count_index
+    if count_index > 0:
+        count_index -= 1
+        show_words(count_index)
+
+
+# ---------------Show_next pair without waiting in same time--------#
+def show_both_word():
+    global count_index
+    window.after_cancel(ar_word_side)
+    en_and_ar = f"{en_word} : {ar_word}"
+    change_canvas_text(words_canvas, en_and_ar)
+
+
 # ---------------Increase_Count_Index------------#
 def increase_count_index():
     global count_index
@@ -77,7 +93,7 @@ def word_remaining():
 
 # ---------------------Fonts and Colors---------------#
 FONT = "Coiny"
-AR_FONT = "Arabic Typesetting"
+WORDS_COLOR = "darkorange"
 FG_COLOR = "#274472"
 BG_COLOR = "#8FDDE7"
 
@@ -101,7 +117,7 @@ canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # ------------------ This part will be refreshed each time user start the app-----#
 # bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
 # total_words = str(index_length - count_index)
-number_of_words = canvas.create_text(280, 30, text=None, fill=FG_COLOR, font=(FONT, 50))
+number_of_words = canvas.create_text(260, 30, text=None, fill="lightseagreen", font=(FONT, 50))
 # -----------First Face---------------#
 # face_card_image = PhotoImage(file="img/ar_word.png")
 # face_card = canvas.create_image(500, 350, image=face_card_image, anchor=NW)
@@ -109,31 +125,39 @@ number_of_words = canvas.create_text(280, 30, text=None, fill=FG_COLOR, font=(FO
 flash_card_frame = PhotoImage(file="img/flashcardfram.png")
 canvas.create_image(250, 290, image=flash_card_frame)
 # ------------Loop and display Words-----------#
-words_canvas = canvas.create_text(250, 300, text=None, fill="red", font=(FONT, 50, "bold"))
+words_canvas = canvas.create_text(250, 290, text=None, fill=WORDS_COLOR, font=(FONT, 30, "bold"))
 # -------------- Do you know this word?--------#
 you_now = canvas.create_text(250, 350, text="Do you know this word?", fill=FG_COLOR, font=(FONT, 20, "bold"))
 # --------------Test Remaining words text---------#
-remaining_word_text = canvas.create_text(280, 80, text="Words Remaining ", fill="black", font=(FONT, 20, "bold"))
+remaining_word_text = canvas.create_text(260, 80, text="Words Remaining ", fill="navajowhite", font=(FONT, 20, "bold"))
 # -----------Show next word without waiting----------------#
 show_word_image = PhotoImage(file="img/show_word_direct.png")
 show_word_button = Button(text="test", border=0, highlightthicknes=0, activebackground=BG_COLOR, bg=BG_COLOR,
                           image=show_word_image,
-                          command=show_next_word).grid(column=1, row=2)
-canvas.grid(column=0, row=1, columnspan=4)
+                          command=show_both_word).grid(column=3, row=3, sticky=E)
 # ----------Yes Button----------------#
 yes_button_image = PhotoImage(file="img/yes.png")
 yes_button = Button(image=yes_button_image, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0, border="0",
                     command=yes_delete_row)
-yes_button.grid(column=0, row=2, sticky=W)
+yes_button.grid(column=0, row=2)
 # ----------Exit and Save Button-------#
 save_exit_image = PhotoImage(file="img/saveandexit.png")
-save_exit_button = Button(image=save_exit_image, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0,
+save_exit_button = Button(image=save_exit_image,width=250, activebackground=BG_COLOR, bg=BG_COLOR, highlightthicknes=0,
                           border="0", command=save_and_exit)
-save_exit_button.grid(column=1, row=3, sticky=S)
+save_exit_button.grid(column=1, row=3, columnspan=2)
 # ---------No Button------------------#
 no_image = PhotoImage(file="img/no.png")
 no_button = Button(image=no_image, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
                    command=increase_count_index)
-no_button.grid(column=2, row=2, sticky=E)
+no_button.grid(column=3, row=2)
+# ------------back button--------------#
+previous_b_img = PhotoImage(file="img/previous_b.png")
+previous_b = Button(image=previous_b_img, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
+                    command=show_previous_word).grid(column=0, row=3, sticky=W)
+# -----------Next button--------------#
+# next_both_img = PhotoImage(file="img/next_b.png")
+# next_both_b = Button(image=next_both_img, bg=BG_COLOR, activebackground=BG_COLOR, highlightthicknes=0, border="0",
+#                      command=show_both_word).grid(column=4, row=2)
+canvas.grid(column=0, row=1, columnspan=4)
 show_words(count_index)
 window.mainloop()
