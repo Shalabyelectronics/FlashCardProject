@@ -3,7 +3,7 @@ import pandas as pd
 
 # --------------Load and Reset my data file index----------- First Step-------#
 
-data_file = pd.read_csv("en_ar_data.csv", index_col=0)
+data_file = pd.read_csv("data/en_ar_data.csv", index_col=0)
 data_file.reset_index(drop=True, inplace=True)
 index_length = len(data_file)
 count_index = 0
