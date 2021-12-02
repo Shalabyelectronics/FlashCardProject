@@ -15,13 +15,16 @@ ar_word = None
 # ------------Show Next Word------------------- we call this function in line 125#
 def show_words(index):
     global ar_word_side, en_word, ar_word, count_index
-    if index_length >= 0:
+    if count_index >= 0:
         try:
             en_word = data_file.loc[index, "en"]
             ar_word = data_file.loc[index, "ar"]
         except KeyError:
-            count_index += 1
-            show_words(count_index)
+            if count_index >= 0:
+                count_index += 1
+                show_words(count_index)
+            else:
+                increase_count_index()
         else:
             word_remaining()
             change_canvas_text(words_canvas, en_word)
@@ -39,7 +42,7 @@ def show_next_word():
 def show_previous_word():
     global count_index, en_word, ar_word, ar_word_side
     window.after_cancel(ar_word_side)
-    if 0 <= count_index and index_length >= 0:
+    if count_index >= 0 and index_length >= 0:
         count_index -= 1
         try:
             en_word = data_file.loc[count_index, "en"]
@@ -72,17 +75,22 @@ def change_canvas_text(item, word):
 
 
 # ----------------Change words background---------------------#
+# I think to add a background for the words.
 # def change_word_bg():
 #     canvas.itemconfig(bg_word_rectangle, fill="black")
 
 
 # ------------------Yes and delete row Function-----------------#
 def yes_delete_row():
-    global count_index
+    global count_index, ar_word_side
     window.after_cancel(ar_word_side)
-    data_file.drop(count_index, inplace=True)
-    increase_count_index()
-    word_remaining()
+    try:
+        data_file.drop(count_index, inplace=True)
+    except KeyError:
+        increase_count_index()
+    else:
+        increase_count_index()
+        word_remaining()
 
 
 # ------------------No Function--------------------#
@@ -126,8 +134,6 @@ words to learn another label (column=2,row=0)
 # My canvas Start here.
 canvas = Canvas(width=500, height=500, bg=BG_COLOR, highlightthicknes=0)
 # ------------------ This part will be refreshed each time user start the app-----#
-# bg_word_rectangle = canvas.create_rectangle(40, 400, 500, 90, fill="white", outline="white")
-# total_words = str(index_length - count_index)
 number_of_words = canvas.create_text(260, 30, text=None, fill="lightseagreen", font=(FONT, 50))
 # -----------Flash card Frame---------------#
 flash_card_frame = PhotoImage(file="img/flashcardfram.png")
